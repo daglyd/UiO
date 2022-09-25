@@ -5,8 +5,6 @@ from ast2000tools.utils import get_seed
 import ast2000tools.constants as const
 
 
-def theoretic_kintetic_energy(T):
-    return (3/2)*const.k_B*T 
 class Box:
     
 
@@ -24,10 +22,15 @@ class Box:
         self.L = 1e-6 # Box Size
         self.T = 10000 # K : Temperature
         self.N =  1e5 # Number of particles in box: hydrogen molecules (H2)
+        
 
+        self.h2_mass = const.m_H2       # mass of hydrogen molecule [kg]
+        self.h_mass = self.h2_mass / 2  # mass of hydrogen atom [kg]
+        self.k = const.k_B
         v_esc = np.sqrt((2*G*home_planet_mass_kg)/
                         home_planet_radius) # m/s
         
+
     def init_positions(self):
         self.r = np.random.uniform(
                 0,
@@ -39,16 +42,25 @@ class Box:
     def init_velocities(self):
         self.v = np.random.normal(
                 0,
-                np.sqrt(1.38064852e-23*self.T/const.m_H2/2),
+                np.sqrt(1.38064852e-23*self.T/(const.m_H2/2)),
                 size=(int(self.N),3)
             )
+        return None
+
+    def calculate_mean_velocity(self): 
+
+        self.mean_v = np.linalg.norm(self.v, axis=1)
+        self.mean_v = self.mean_v.mean() 
+        return self.mean_v 
 
 
-if __name__ == '__main__':
-    box = Box('dagaly')
-    box.init_positions()
-    box.init_velocities()
+    def calcualte_mean_kinetic_energy(self):
 
-    print("Theoretic kinetic energy: {:.2e}".format(theoretic_kintetic_energy(box.T)))
+        self.mean_energy = np.linalg.norm(self.v, axis=1)**2
+        self.mean_energy = self.mean_energy.mean() 
+        self.mean_energy = (1/2)*self.h_mass*self.mean_energy
 
-    print("Debug")
+        return self.mean_energy
+
+
+
