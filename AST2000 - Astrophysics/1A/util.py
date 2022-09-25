@@ -22,7 +22,7 @@ def plot_particles(data_path="data.csv"):
     df = pd.read_csv(data_path,index_col=0)
 
     fig = px.scatter_3d(df, x='x', y='y', z='z',animation_frame=df.index,
-                        range_x=[0,box.L],range_y=[0,box.L],range_z=[0,box.L]
+                        range_x=[0,1e-6],range_y=[0,1e-6],range_z=[0,1e-6]
                 )
     fig.update_traces(marker={"size":2})
     fig.show() 

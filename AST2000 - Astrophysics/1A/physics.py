@@ -55,7 +55,7 @@ class PhysicsSimulation:
                     r = np.insert(r, 0, t, axis=1)
                     np.savetxt(file, r, delimiter=",")
         else:
-            for t in (range(self.n_steps)):
+            for t in tqdm(range(self.n_steps)):
                 self.compute_timestep()
 
 

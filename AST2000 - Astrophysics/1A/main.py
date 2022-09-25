@@ -25,6 +25,7 @@ def main():
     relative_error = (theoretic_KE - mean_KE) / theoretic_KE
     print("Relative error: {:.2f}%".format((abs(relative_error)*100)))
     print_hash_line(symbol='=',newline=True)
+    print("\n\n\n")
     
 
     print_hash_line("Mean Velocity", symbol='/')
@@ -40,7 +41,7 @@ def main():
     relative_error_v = (theoretic_mean_v - mean_v) / theoretic_mean_v
     print("Relative error {:.2f}%".format(abs(relative_error_v)*100))
     print_hash_line(symbol='=',newline=True)
-
+    print("\n\n\n")
 
     # Model physics 
     box.init_positions()
@@ -50,8 +51,8 @@ def main():
     # Run the simulation 
     print_hash_line("Physics simulation", symbol="/")
     start = time.time()
-    model.run_model(data_capture=True) 
-    print("Model time: ", time.time()-start )
+    model.run_model(data_capture=False) 
+    print("Model time: {:.2f} seconds. ".format(time.time()-start ))
 
     eq_of_state = equation_of_state(box.N, box.T, box.L)
     print("Equation of state: {:.2f}".format(eq_of_state) )
@@ -62,10 +63,11 @@ def main():
     print("Calculated pressure on the wall: {:.2f}\n".format(P))
     relative_error = (eq_of_state - P) / eq_of_state 
     print("Relative error: {:.2f}%".format(relative_error*100))
-    print_hash_line(symbol='/')
+    print_hash_line(symbol='=')
+    print("\n\n\n")
 
     # Plotting 
-    plot_particles()
+    # plot_particles()
 
     print("Debug")
 
